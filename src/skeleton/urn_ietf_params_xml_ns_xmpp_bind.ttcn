@@ -1,0 +1,74 @@
+/*******************************************************************************
+* Copyright Ericsson Telecom AB 2015
+*
+* XSD to TTCN-3 Translator version: CRL 113 200/5 R3A                       
+*
+* All rights reserved. This program and the accompanying materials
+* are made available under the terms of the Eclipse Public License v1.0
+* which accompanies this distribution, and is available at
+* http://www.eclipse.org/legal/epl-v10.html
+*******************************************************************************/
+//
+//  File:          urn_ietf_params_xml_ns_xmpp_bind.ttcn
+//  Description:
+//  References:
+//  Rev:
+//  Prodnr:
+//  Updated:       Fri Sep 11 13:50:14 2015
+//  Contact:       http://ttcn.ericsson.se
+//
+////////////////////////////////////////////////////////////////////////////////
+//	Generated from file(s):
+//	- xmpp-bind.xsd
+//			/* xml version = "1.0" encoding = "UTF-8" */
+//			/* targetnamespace = "urn:ietf:params:xml:ns:xmpp-bind" */
+////////////////////////////////////////////////////////////////////////////////
+//     Modification header(s):
+//-----------------------------------------------------------------------------
+//  Modified by:
+//  Modification date:
+//  Description:
+//  Modification contact:
+//------------------------------------------------------------------------------
+////////////////////////////////////////////////////////////////////////////////
+
+
+module urn_ietf_params_xml_ns_xmpp_bind {
+
+
+import from XSD all;
+
+
+type record Bind
+{
+	union {
+		ResourceType resource,
+		FullJIDType jid
+	} choice
+}
+with {
+variant "name as uncapitalized";
+variant "element";
+variant (choice) "untagged";
+};
+
+
+type XSD.String FullJIDType length(8 .. 3071)
+with {
+variant "name as uncapitalized";
+};
+
+
+type XSD.String ResourceType length(1 .. 1023)
+with {
+variant "name as uncapitalized";
+};
+
+
+}
+with {
+encode "XML";
+variant "namespace as 'urn:ietf:params:xml:ns:xmpp-bind'";
+variant "controlNamespace 'http://www.w3.org/2001/XMLSchema-instance' prefix 'xsi'";
+variant "elementFormQualified";
+}

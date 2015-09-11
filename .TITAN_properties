@@ -1,13 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <TITAN_Designer_Properties>
   <ActiveConfiguration>Default</ActiveConfiguration>
+  <Configurations/>
   <ProjectProperties>
     <MakefileSettings>
       <targetExecutable>bin/TDT4290</targetExecutable>
+      <buildLevel>Level3-Creatingobjectfileswithdependencyupdate</buildLevel>
     </MakefileSettings>
     <LocalBuildSettings>
       <MakefileScript/>
       <workingDirectory>bin</workingDirectory>
     </LocalBuildSettings>
+    <NamingCoventions>
+      <enableProjectSpecificSettings>true</enableProjectSpecificSettings>
+      <externalFunction>.*</externalFunction>
+      <localVariable>.*</localVariable>
+      <formalParameter>.*</formalParameter>
+    </NamingCoventions>
   </ProjectProperties>
 </TITAN_Designer_Properties>
