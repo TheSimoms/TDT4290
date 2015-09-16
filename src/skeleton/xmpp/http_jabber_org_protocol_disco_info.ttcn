@@ -1,0 +1,118 @@
+/*******************************************************************************
+* Copyright Ericsson Telecom AB 2015
+*
+* XSD to TTCN-3 Translator version: CRL 113 200/5 R3A                       
+*
+* All rights reserved. This program and the accompanying materials
+* are made available under the terms of the Eclipse Public License v1.0
+* which accompanies this distribution, and is available at
+* http://www.eclipse.org/legal/epl-v10.html
+*******************************************************************************/
+//
+//  File:          http_jabber_org_protocol_disco_info.ttcn
+//  Description:
+//  References:
+//  Rev:
+//  Prodnr:
+//  Updated:       Wed Sep 16 13:08:51 2015
+//  Contact:       http://ttcn.ericsson.se
+//
+////////////////////////////////////////////////////////////////////////////////
+//	Generated from file(s):
+//	- disco#info.xsd
+//			/* xml version = "1.0" encoding = "UTF-8" */
+//			/* targetnamespace = "http://jabber.org/protocol/disco#info" */
+////////////////////////////////////////////////////////////////////////////////
+//     Modification header(s):
+//-----------------------------------------------------------------------------
+//  Modified by:
+//  Modification date:
+//  Description:
+//  Modification contact:
+//------------------------------------------------------------------------------
+////////////////////////////////////////////////////////////////////////////////
+
+
+module http_jabber_org_protocol_disco_info {
+
+
+import from XSD all;
+
+
+/* The protocol documented by this schema is defined in
+      XEP-0030: http://www.xmpp.org/extensions/xep-0030.html */
+
+
+type record Query
+{
+	XSD.String node optional,
+	record {
+		record length(1 .. infinity) of Identity identity_list,
+		record length(1 .. infinity) of Feature feature_list
+	} sequence optional
+}
+with {
+variant "name as uncapitalized";
+variant "element";
+variant (node) "attribute";
+variant (sequence) "untagged";
+variant (sequence.identity_list) "untagged";
+variant (sequence.feature_list) "untagged";
+};
+
+
+type record Identity
+{
+	NonEmptyString category,
+	XSD.String name optional,
+	NonEmptyString type_,
+	Empty base
+}
+with {
+variant "name as uncapitalized";
+variant "element";
+variant (category) "attribute";
+variant (name) "attribute";
+variant (type_) "name as 'type'";
+variant (type_) "attribute";
+variant (base) "untagged";
+};
+
+
+type record Feature
+{
+	XSD.String var_,
+	Empty base
+}
+with {
+variant "name as uncapitalized";
+variant "element";
+variant (var_) "name as 'var'";
+variant (var_) "attribute";
+variant (base) "untagged";
+};
+
+
+type XSD.String NonEmptyString length(1 .. infinity)
+with {
+variant "name as uncapitalized";
+};
+
+
+type enumerated Empty
+{
+	x
+}
+with {
+variant "text 'x' as ''";
+variant "name as uncapitalized";
+};
+
+
+}
+with {
+encode "XML";
+variant "namespace as 'http://jabber.org/protocol/disco#info'";
+variant "controlNamespace 'http://www.w3.org/2001/XMLSchema-instance' prefix 'xsi'";
+variant "elementFormQualified";
+}
