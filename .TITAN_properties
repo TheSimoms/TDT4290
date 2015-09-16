@@ -9,6 +9,7 @@
     </MakefileSettings>
     <LocalBuildSettings>
       <MakefileScript/>
+      <MakefileFlags>bin</MakefileFlags>
       <workingDirectory>bin</workingDirectory>
     </LocalBuildSettings>
     <NamingCoventions>
