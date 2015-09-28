@@ -1,0 +1,35 @@
+//  File:               XMPP_PortType.ttcn
+//  Description:        XMPP testport port definition file
+
+
+module XMPP_PortType
+{
+
+import from http_etherx_jabber_org_streams all;
+import from XMPP_Types all;
+
+//*****************************************************************************
+//Port type definitions
+//*****************************************************************************
+
+
+//*****************************************************************************
+//XMPP  ports
+//*****************************************************************************
+
+type port XMPP_PT message
+{
+  	inout Stream;
+  
+  	out   XMPP_Connect;
+    in    XMPP_Connect_result;
+    in    XMPP_Connected;
+    inout XMPP_Close;
+    out   XMPP_Listen;
+    in    XMPP_Listen_result;
+    out   XMPP_Shutdown;
+    in    XMPP_Send_error;
+    out   XMPP_SetAddressFamily;
+} with { extension "provider" }
+
+}

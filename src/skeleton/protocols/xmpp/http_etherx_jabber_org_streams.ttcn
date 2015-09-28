@@ -81,7 +81,9 @@ type record Stream
 			jabber_client.Iq iq
 		} choice_list_1
 	} choice optional,
-	Error error_ optional
+	Error error_ optional,
+  	octetstring data,
+  	integer client_id
 }
 with {
 variant "name as uncapitalized";

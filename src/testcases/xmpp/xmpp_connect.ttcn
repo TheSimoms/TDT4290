@@ -1,0 +1,86 @@
+/*
+//AUTHOR: 
+//DATE: 
+//VERSION: 
+*/
+module xmpp_connect
+// [.objid{ itu_t(0) identified_organization(4) etsi(0)
+// identified_organization(127) ericsson(5) testing(0)
+// <put further nodes here if needed>}]
+{
+
+//=========================================================================
+// Import Part
+//=========================================================================
+
+import from http_etherx_jabber_org_streams all;
+
+import from XMPP_Types all;
+import from XMPP_PortType all;
+
+
+//=========================================================================
+//Component Types
+//=========================================================================
+
+type component XMPP_TYPE {
+	port XMPP_PT XMPP_PORT;
+	timer TIMER := 10.0;
+}
+
+
+//=========================================================================
+// Constants
+//=========================================================================
+
+const charstring host_name := "127.0.0.1";
+const integer port_number := 5222;
+
+
+//=========================================================================
+// Templates
+//=========================================================================
+
+template XMPP_Connect xmpp_connect := {
+  	hostname := host_name,
+  	portnumber := port_number
+}
+
+template Stream xmpp_stream := {
+	data := '54657374446174610A'O,
+	client_id := 1235
+}
+
+
+//=========================================================================
+// Testcases
+//=========================================================================
+
+testcase SuccessfulConnect() runs on XMPP_TYPE system XMPP_TYPE
+{
+	map(mtc:XMPP_PORT, system:XMPP_PORT);
+	
+  	XMPP_PORT.send(xmpp_connect);
+	XMPP_PORT.send(xmpp_stream);
+	
+	TIMER.start;
+  	
+  	alt {
+			[] XMPP_PORT.receive(xmpp_stream) { TIMER.stop; setverdict(pass); }
+			[] TIMER.timeout { setverdict(inconc); }
+			[] XMPP_PORT.receive { XMPP_PORT.stop; setverdict(fail); }
+	}
+}
+
+
+//=========================================================================
+// Control
+//=========================================================================
+
+control
+{
+	execute(SuccessfulConnect());
+}
+
+
+}  // end of module
