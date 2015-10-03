@@ -15,6 +15,9 @@ module xmpp_connect
 
 import from http_etherx_jabber_org_streams all;
 
+import from jabber_client all;
+import from jabber_server all;
+
 import from XMPP_Types all;
 import from XMPP_PortType all;
 
@@ -25,7 +28,7 @@ import from XMPP_PortType all;
 
 type component XMPP_TYPE {
 	port XMPP_PT XMPP_PORT;
-	timer TIMER := 10.0;
+	timer TIMER := 20.0;
 }
 
 
@@ -41,14 +44,64 @@ const integer port_number := 5222;
 // Templates
 //=========================================================================
 
-template XMPP_Connect xmpp_connect := {
-  	hostname := host_name,
-  	portnumber := port_number
+template jabber_client.Message client_message := {
+  	from_ := omit,
+  	id := omit,
+  	lang := omit,
+  	to_ := omit,
+  	type_ := omit,
+  	choice_list := {
+  		{
+    	  	subject := {
+  	      		lang := omit,
+    	  	  	base := "Heisann"
+    	  	}
+  	  	},
+  	  	{
+    	  	body := {
+  	      		lang := omit,
+    	  	  	base := "Heisann"
+    	  	}
+  	  	}
+  	},
+  	elem_list := {},
+  	error_ := omit
 }
 
-template Stream xmpp_stream := {
-	data := '54657374446174610A'O,
-	client_id := 1235
+template Stream client_stream := {
+  	from_ := "user@localhost",
+  	id := omit,
+  	lang := omit,
+  	to_ := "test@localhost",
+  	version := omit,
+  	attr := {},
+  	features := omit,
+  	elem := omit,
+  	elem_1 := omit,
+  	elem_list := {},
+  	choice := {
+  	  choice_list_1 := {
+  	    {
+  	      message_ := client_message
+  	    }
+  	  }
+  	},
+  	error_ := omit
+}
+
+template Stream server_stream := {
+  	from_ := "localhost",
+  	id := pattern "\d*",
+  	lang := omit,
+  	to_ := omit,
+  	version := 1.000000,
+  	attr := {},
+  	features := omit,
+  	elem := "<stream:error xmlns:stream=\"http://etherx.jabber.org/streams\"><xml-not-well-formed xmlns=\"urn:ietf:params:xml:ns:xmpp-streams\"/></stream:error>",
+  	elem_1 := omit,
+  	elem_list := {},
+  	choice := omit,
+  	error_ := omit
 }
 
 
@@ -60,13 +113,14 @@ testcase SuccessfulConnect() runs on XMPP_TYPE system XMPP_TYPE
 {
 	map(mtc:XMPP_PORT, system:XMPP_PORT);
 	
-  	XMPP_PORT.send(xmpp_connect);
-	XMPP_PORT.send(xmpp_stream);
+	log("HEI");
+	
+	XMPP_PORT.send(client_stream);
 	
 	TIMER.start;
   	
   	alt {
-			[] XMPP_PORT.receive(xmpp_stream) { TIMER.stop; setverdict(pass); }
+			[] XMPP_PORT.receive(client_stream) { TIMER.stop; setverdict(pass); }
 			[] TIMER.timeout { setverdict(inconc); }
 			[] XMPP_PORT.receive { XMPP_PORT.stop; setverdict(fail); }
 	}

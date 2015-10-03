@@ -44,19 +44,43 @@ XMPP__PT_PROVIDER::~XMPP__PT_PROVIDER()
 	delete header_descr;
 }
 
-void XMPP__PT_PROVIDER::outgoing_send(const http__etherx__jabber__org__streams::Stream& /*send_par*/)
+void XMPP__PT_PROVIDER::outgoing_send(const http__etherx__jabber__org__streams::Stream& send_par)
 {
 	log_debug("entering XMPP__PT_PROVIDER::outgoing_send(Stream)");
 
-	/*if(send_par.client__id().is_bound() && send_par.client__id().ispresent()) {
-		send_outgoing((const unsigned char*)send_par.data(),
-				  send_par.data().lengthof(), send_par.client__id()());
-	} else {
-		send_outgoing((const unsigned char*)send_par.data(),
-				  send_par.data().lengthof());
-	}*/
+	XERdescriptor_t p_td = http__etherx__jabber__org__streams::Stream_xer_;
+	TTCN_Buffer p_buf;
+	unsigned int p_flavor = 4;
+	int p_indent = 1;
+	embed_values_enc_struct_t* embed_values_enc_struct_t;
+
+	send_par.XER_encode(p_td, p_buf, p_flavor, p_indent, embed_values_enc_struct_t);
+
+	printf("MESSAGE SENT:\n\n\n%s\n\n\n", p_buf.get_data());
+
+	send_outgoing(p_buf.get_data(), strlen((const char*)p_buf.get_data()));
 
 	log_debug("leaving XMPP__PT_PROVIDER::outgoing_send(Stream)");
+}
+
+void XMPP__PT_PROVIDER::message_incoming(const unsigned char* msg, int messageLength, int client_id) {
+	log_debug("entering XMPP__PT_PROVIDER::message_incoming()");
+
+	printf("MESSAGE RECEIVED:\n\n\n%s\n\n\n", msg);
+
+	http__etherx__jabber__org__streams::Stream parameters;
+
+	XERdescriptor_t p_td = http__etherx__jabber__org__streams::Stream_xer_;
+	TTCN_Buffer* p_buf = get_buffer(client_id);
+	XmlReaderWrap p_reader(*p_buf);
+	unsigned int p_flavor = 4;
+	embed_values_dec_struct_t* embed_values_dec_struct_t;
+
+	parameters.XER_decode(p_td, p_reader, p_flavor, embed_values_dec_struct_t);
+
+	incoming_message(parameters);
+
+	log_debug("leaving XMPP__PT_PROVIDER::message_incoming()");
 }
 
 void XMPP__PT_PROVIDER::set_parameter(const char *parameter_name,
@@ -127,20 +151,6 @@ void XMPP__PT_PROVIDER::Handle_Timeout(double time_since_last_call)
   log_debug("entering XMPP__PT_PROVIDER::Handle_Timeout()");
   Handle_Timeout_Event(time_since_last_call);
   log_debug("leaving XMPP__PT_PROVIDER::Handle_Timeout()");
-}
-
-void XMPP__PT_PROVIDER::message_incoming(const unsigned char* msg, int messageLength, int client_id) {
-  log_debug("entering XMPP__PT_PROVIDER::message_incoming()");
-  /*http__etherx__jabber__org__streams::Stream parameters;
-  parameters.data() = OCTETSTRING(messageLength, msg);
-  if(client_id != -1) {
-    parameters.client__id() = client_id;
-  } else {
-    parameters.client__id() = OMIT_VALUE;
-  }
-
-  incoming_message(parameters);*/
-  log_debug("leaving XMPP__PT_PROVIDER::message_incoming()");
 }
 
 void XMPP__PT_PROVIDER::peer_disconnected(int client_id) {
