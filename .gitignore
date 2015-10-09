@@ -69,3 +69,12 @@ local.properties
 
 # Log
 log/
+
+# Titan generated c++ files
+*.cc
+*.hh
+
+# Titan generated helper files
+!HTTPmsg_MessageLen_Function.cc
+!*_PT.cc
+!*_PT.hh
