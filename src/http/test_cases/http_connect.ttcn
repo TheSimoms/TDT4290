@@ -1,0 +1,180 @@
+/*
+//AUTHOR: 
+//DATE: 
+//VERSION: 
+*/
+module http_connect
+// [.objid{ itu_t(0) identified_organization(4) etsi(0)
+// identified_organization(127) ericsson(5) testing(0)
+// <put further nodes here if needed>}]
+{
+
+//=========================================================================
+// Import Part
+//=========================================================================
+
+import from HTTPmsg_Types all;
+import from HTTPmsg_PortType all;
+
+//=========================================================================
+// Module Parameters
+//=========================================================================
+
+// Insert module parameters here if applicable!
+// You can use the module_param skeleton!
+
+//=========================================================================
+// Data Types
+//=========================================================================
+
+// Insert data type defintions here if applicable!
+// You can use the data_type skeleton!
+
+//=========================================================================
+// Signatures
+//=========================================================================
+
+// Insert signature definitions here if applicable!
+// You can use the signature skeleton!
+
+//=========================================================================
+//Port Types
+//=========================================================================
+
+// Insert port type defintions here if applicable!
+// You can use the port_type skeleton!
+
+//=========================================================================
+//Component Types
+//=========================================================================
+
+type component HTTP_TYPE {
+	port HTTPmsg_PT HTTP_PORT;
+	timer TIMER := 1.0;
+}
+
+//=========================================================================
+// Constants
+//=========================================================================
+
+// Insert constants here if applicable!
+// You can use the constant skeleton!
+
+//=========================================================================
+// Templates
+//=========================================================================
+
+template HeaderLines header_lines := {
+    {
+    	header_name := "Server",
+    	header_value := "gunicorn/17.5"
+    },
+  	{
+   	  	header_name := "Date",
+   		header_value := pattern "(Mon|Tue|Wed|Thu|Fri|Sat|Sun), \d#2 (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) \d#4 \d#2:\d#2:\d#2 [A-Z]#(0, 5)"
+	},
+	{
+	    header_name := "Connection", 
+	    header_value := "close"
+	},
+	{
+  	    header_name := "Content-Type",
+  	    header_value := pattern "(application/json|text/html; charset=utf-8|text/html)"
+  	},
+  	{
+    	header_name := "Content-Length",
+    	header_value := pattern "\d+"
+  	},
+  	{	
+    	header_name := "Access-Control-Allow-Origin",
+    	header_value := "*"
+    },
+    {  
+      	header_name := "Access-Control-Allow-Credentials",
+      	header_value := "true"
+    }
+}
+
+template Connect connect_ := {
+    hostname := "127.0.0.1",
+    portnumber := 8000,
+    use_ssl := false
+};
+
+template Connect_result connect_result := {
+  	client_id := (0 .. infinity)
+}
+
+template HTTPRequest request := {
+    // client_id is used only in case of multiple connections, otherwise set it to omit
+    client_id := omit,
+    method := "GET",
+    uri := "ip",
+    version_major := 1,
+    version_minor := 1,
+    header := {},
+    body := ""
+};
+
+template HTTPResponse response := {
+	client_id := (0 .. infinity),
+  	version_major := 1,
+  	version_minor := 1,
+  	statuscode := 200,
+  	statustext := "OK",
+  	header := header_lines,
+  	body := "{\n  \"origin\": \"127.0.0.1\"\n}\n"
+};
+
+template HTTPMessage request_message := {
+  	request := request
+}
+
+template HTTPMessage respone_message := {
+  	response := response
+}
+
+//=========================================================================
+// Altsteps
+//=========================================================================
+
+// Insert altsteps here if applicable!
+// You can use the altstep skeleton!
+
+//=========================================================================
+// Functions
+//=========================================================================
+
+// Insert functions here if applicable!
+// You can use the function skeleton!
+
+//=========================================================================
+// Testcases
+//=========================================================================
+
+testcase SuccessfulConnect() runs on HTTP_TYPE system HTTP_TYPE
+{
+	map(mtc:HTTP_PORT, system:HTTP_PORT);
+	
+	HTTP_PORT.send(connect_);
+	HTTP_PORT.send(request_message);
+	
+	TIMER.start;
+  	
+  	alt {
+			[] HTTP_PORT.receive(respone_message) { TIMER.stop; setverdict(pass); }
+			[] TIMER.timeout { setverdict(inconc); }
+			[] HTTP_PORT.receive { TIMER.stop; setverdict(fail); }
+	}
+}
+
+//=========================================================================
+// Control
+//=========================================================================
+
+control
+{
+	execute(SuccessfulConnect());
+}
+
+}  // end of module
