@@ -1,0 +1,38 @@
+[
+    {
+        "fields": {
+            "username": "admin",
+            "first_name": "",
+            "last_name": "",
+            "is_active": true,
+            "is_superuser": true,
+            "is_staff": true,
+            "last_login": "2015-10-12T11:28:10.447Z",
+            "groups": [],
+            "user_permissions": [],
+            "password": "pbkdf2_sha256$20000$Q58Rg6EAG3PK$1WmI68OXjpZ74WTugz1GQ0DEBvcmxuUTffLjPyly8lw=",
+            "email": "admin@tdt4290.com",
+            "date_joined": "2015-10-12T13:00:00.946Z"
+        },
+        "model": "auth.user",
+        "pk": 1
+    },
+    {
+        "fields": {
+            "username": "anonymous",
+            "first_name": "",
+            "last_name": "",
+            "is_active": true,
+            "is_superuser": false,
+            "is_staff": false,
+            "last_login": "2015-10-12T11:28:10.447Z",
+            "groups": [],
+            "user_permissions": [],
+            "password": "pbkdf2_sha256$20000$Q58Rg6EAG3PK$1WmI68OXjpZ74WTugz1GQ0DEBvcmxuUTffLjPyly8lw=",
+            "email": "anonymous@tdt4290.com",
+            "date_joined": "2015-10-12T13:00:00.946Z"
+        },
+        "model": "auth.user",
+        "pk": 2
+    }
+]

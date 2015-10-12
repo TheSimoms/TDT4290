@@ -38,8 +38,8 @@ If any changes has been made, reset the server and update dependencies:
 
 Then, start the test server:
 ```bash
-cd src
 ./manage.py runserver
 ```
 
 The server can now be accessed at `http://localhost:8000/` in your web browser.
+An admin user with username 'admin' and password 'password' has been added to the database.
