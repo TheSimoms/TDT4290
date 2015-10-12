@@ -108,7 +108,6 @@ STATIC_URL = '/static/'
 ANONYMOUS_USER_ID = 2
 
 REST_FRAMEWORK = {
-    'PAGE_SIZE': 10,
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
     ],
