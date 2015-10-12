@@ -78,3 +78,12 @@ log/
 !HTTPmsg_MessageLen_Function.cc
 !*_PT.cc
 !*_PT.hh
+
+# JetBrains IDEs
+*.idea/
+
+# Test server
+server/TDT4290
+*.pyc
+*.pyo
+server/db.sqlite3
