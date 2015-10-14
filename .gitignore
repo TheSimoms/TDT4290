@@ -87,3 +87,6 @@ server/TDT4290
 *.pyc
 *.pyo
 server/db.sqlite3
+
+# TITAN properties
+ttcn3/.TITAN_properties
