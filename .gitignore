@@ -71,13 +71,14 @@ local.properties
 log/
 
 # Titan generated c++ files
-*.cc
-*.hh
+ttcn3/*.cc
+ttcn3/*.hh
 
 # Titan generated helper files
-!HTTPmsg_MessageLen_Function.cc
-!*_PT.cc
-!*_PT.hh
+!ttcn3/HTTPmsg_MessageLen_Function.cc
+!ttcn3/*_PT.cc
+!ttcn3/*_PT.hh
+!ttcn3/Abstract_Socket.*
 
 # JetBrains IDEs
 *.idea/
