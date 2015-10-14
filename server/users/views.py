@@ -1,7 +1,9 @@
 from django.contrib.auth.models import User, Group
+from django.views.generic import TemplateView
+
 from rest_framework import viewsets
 
-from testing.serializers import UserSerializer, GroupSerializer
+from users.serializers import UserSerializer, GroupSerializer
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -18,3 +20,7 @@ class GroupViewSet(viewsets.ModelViewSet):
     """
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
+
+
+class LoggedInView(TemplateView):
+    template_name = 'users/logged_in.html'
