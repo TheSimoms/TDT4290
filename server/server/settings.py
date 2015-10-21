@@ -42,7 +42,8 @@ INSTALLED_APPS = (
 
     'rest_framework',
 
-    'users'
+    'user',
+    'house',
 )
 
 MIDDLEWARE_CLASSES = (

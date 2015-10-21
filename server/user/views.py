@@ -3,7 +3,7 @@ from django.views.generic import TemplateView
 
 from rest_framework import viewsets
 
-from users.serializers import UserSerializer, GroupSerializer
+from user.serializers import UserSerializer, GroupSerializer
 
 
 class UserViewSet(viewsets.ModelViewSet):
