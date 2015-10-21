@@ -3,7 +3,6 @@
   <ProjectName>ttcn3</ProjectName>
   <Folders>
     <FolderResource projectRelativePath="doc" relativeURI="doc"/>
-    <FolderResource projectRelativePath="log" relativeURI="log"/>
     <FolderResource projectRelativePath="src" relativeURI="src"/>
     <FolderResource projectRelativePath="src/http" relativeURI="src/http"/>
     <FolderResource projectRelativePath="src/http/test_cases" relativeURI="src/http/test_cases"/>
@@ -25,6 +24,7 @@
     <FileResource projectRelativePath="HTTPmsg_PortType.hh" relativeURI="HTTPmsg_PortType.hh"/>
     <FileResource projectRelativePath="HTTPmsg_Types.cc" relativeURI="HTTPmsg_Types.cc"/>
     <FileResource projectRelativePath="HTTPmsg_Types.hh" relativeURI="HTTPmsg_Types.hh"/>
+    <FileResource projectRelativePath="TDT4290.tpd" relativeURI="TDT4290.tpd"/>
     <FileResource projectRelativePath="UsefulTtcn3Types.cc" relativeURI="UsefulTtcn3Types.cc"/>
     <FileResource projectRelativePath="UsefulTtcn3Types.hh" relativeURI="UsefulTtcn3Types.hh"/>
     <FileResource projectRelativePath="XMPP_PT.cc" relativeURI="XMPP_PT.cc"/>
@@ -64,9 +64,6 @@
     <FileResource projectRelativePath="jabber_server.hh" relativeURI="jabber_server.hh"/>
     <FileResource projectRelativePath="jabber_x_data.cc" relativeURI="jabber_x_data.cc"/>
     <FileResource projectRelativePath="jabber_x_data.hh" relativeURI="jabber_x_data.hh"/>
-    <FileResource projectRelativePath="log/ttcn3.user-multicom-part-hc.log" relativeURI="log/ttcn3.user-multicom-part-hc.log"/>
-    <FileResource projectRelativePath="log/ttcn3.user-multicom-part-hc_merged.log" relativeURI="log/ttcn3.user-multicom-part-hc_merged.log"/>
-    <FileResource projectRelativePath="log/ttcn3.user-multicom-part-mtc.log" relativeURI="log/ttcn3.user-multicom-part-mtc.log"/>
     <FileResource projectRelativePath="setup.sh" relativeURI="setup.sh"/>
     <FileResource projectRelativePath="src/http/test_cases/http_connect.ttcn" relativeURI="src/http/test_cases/http_connect.ttcn"/>
     <FileResource projectRelativePath="src/http/test_ports/HTTPmsg_MessageLen.ttcn" relativeURI="src/http/test_ports/HTTPmsg_MessageLen.ttcn"/>
