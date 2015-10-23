@@ -3,7 +3,7 @@
 //DATE: 
 //VERSION: 
 */
-module http_connect
+module simple_request
 // [.objid{ itu_t(0) identified_organization(4) etsi(0)
 // identified_organization(127) ericsson(5) testing(0)
 // <put further nodes here if needed>}]
@@ -64,74 +64,41 @@ type component HTTP_TYPE {
 // Templates
 //=========================================================================
 
-template HeaderLines header_lines := {
-    {
-    	header_name := "Server",
-    	header_value := "gunicorn/17.5"
-    },
-  	{
-   	  	header_name := "Date",
-   		header_value := pattern "(Mon|Tue|Wed|Thu|Fri|Sat|Sun), \d#2 (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) \d#4 \d#2:\d#2:\d#2 [A-Z]#(0, 5)"
-	},
-	{
-	    header_name := "Connection", 
-	    header_value := "close"
-	},
-	{
-  	    header_name := "Content-Type",
-  	    header_value := pattern "(application/json|text/html; charset=utf-8|text/html)"
-  	},
-  	{
-    	header_name := "Content-Length",
-    	header_value := pattern "\d+"
-  	},
-  	{	
-    	header_name := "Access-Control-Allow-Origin",
-    	header_value := "*"
-    },
-    {  
-      	header_name := "Access-Control-Allow-Credentials",
-      	header_value := "true"
-    }
-}
-
 template Connect connect_ := {
     hostname := "127.0.0.1",
     portnumber := 8000,
     use_ssl := false
 };
 
-template Connect_result connect_result := {
-  	client_id := (0 .. infinity)
-}
-
-template HTTPRequest request := {
-    // client_id is used only in case of multiple connections, otherwise set it to omit
+template HTTPRequest request(charstring method, charstring uri, charstring body) := {
     client_id := omit,
-    method := "GET",
-    uri := "ip",
+    method := method,
+    uri := uri,
     version_major := 1,
-    version_minor := 1,
+    version_minor := 0,
     header := {},
-    body := ""
+    body := body
 };
 
-template HTTPResponse response := {
+template HTTPResponse response(integer status_code, charstring body) := {
 	client_id := (0 .. infinity),
   	version_major := 1,
-  	version_minor := 1,
-  	statuscode := 200,
-  	statustext := "OK",
-  	header := header_lines,
-  	body := "{\n  \"origin\": \"127.0.0.1\"\n}\n"
+  	version_minor := 0,
+  	statuscode := status_code,
+  	statustext := ?,
+  	header := ?,
+  	body := body
 };
 
-template HTTPMessage request_message := {
-  	request := request
+template HTTPMessage request_message(charstring method, charstring uri, charstring body) := {
+  	request := request(method, uri, body)
 }
 
-template HTTPMessage respone_message := {
-  	response := response
+template HTTPMessage respone_message(integer status_code, charstring body) := {
+  	response := response(status_code, body)
+}
+template Half_close half_close_receive := {
+  	client_id := (0 .. infinity)
 }
 
 //=========================================================================
@@ -152,17 +119,24 @@ template HTTPMessage respone_message := {
 // Testcases
 //=========================================================================
 
-testcase SuccessfulConnect() runs on HTTP_TYPE system HTTP_TYPE
+testcase Make_request(charstring method, charstring uri, charstring request_body, integer status_code, charstring response_body) runs on HTTP_TYPE system HTTP_TYPE
 {
 	map(mtc:HTTP_PORT, system:HTTP_PORT);
 	
 	HTTP_PORT.send(connect_);
-	HTTP_PORT.send(request_message);
+	HTTP_PORT.send(request_message(method, uri, request_body));
 	
 	TIMER.start;
   	
   	alt {
-			[] HTTP_PORT.receive(respone_message) { TIMER.stop; setverdict(pass); }
+			[] HTTP_PORT.receive(respone_message(status_code, response_body)) {
+				TIMER.stop;
+				
+				alt {
+          			[] HTTP_PORT.receive(half_close_receive) { setverdict(pass); }
+          			[] HTTP_PORT.receive { setverdict(fail); }
+            	}
+			}
 			[] TIMER.timeout { setverdict(inconc); }
 			[] HTTP_PORT.receive { TIMER.stop; setverdict(fail); }
 	}
@@ -172,9 +146,6 @@ testcase SuccessfulConnect() runs on HTTP_TYPE system HTTP_TYPE
 // Control
 //=========================================================================
 
-control
-{
-	execute(SuccessfulConnect());
-}
+// Insert control part here if applicable!
 
 }  // end of module

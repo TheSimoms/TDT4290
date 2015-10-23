@@ -1,0 +1,101 @@
+/*
+//AUTHOR: 
+//DATE: 
+//VERSION: 
+*/
+module check_status_codes
+// [.objid{ itu_t(0) identified_organization(4) etsi(0)
+// identified_organization(127) ericsson(5) testing(0)
+// <put further nodes here if needed>}]
+{
+
+//=========================================================================
+// Import Part
+//=========================================================================
+
+import from simple_request {
+  	testcase Make_request;
+};
+
+//=========================================================================
+// Module Parameters
+//=========================================================================
+
+// Insert module parameters here if applicable!
+// You can use the module_param skeleton!
+
+//=========================================================================
+// Data Types
+//=========================================================================
+
+// Insert data type defintions here if applicable!
+// You can use the data_type skeleton!
+
+//=========================================================================
+// Signatures
+//=========================================================================
+
+// Insert signature definitions here if applicable!
+// You can use the signature skeleton!
+
+//=========================================================================
+//Port Types
+//=========================================================================
+
+// Insert port type defintions here if applicable!
+// You can use the port_type skeleton!
+
+//=========================================================================
+//Component Types
+//=========================================================================
+
+// Insert component type defintions here if applicable!
+// You can use the component_type skeleton!
+
+//=========================================================================
+// Constants
+//=========================================================================
+
+// Insert constants here if applicable!
+// You can use the constant skeleton!
+
+//=========================================================================
+// Templates
+//=========================================================================
+
+// Insert templates here if applicable!
+// You can use the template skeleton!
+
+//=========================================================================
+// Altsteps
+//=========================================================================
+
+// Insert altsteps here if applicable!
+// You can use the altstep skeleton!
+
+//=========================================================================
+// Functions
+//=========================================================================
+
+// Insert functions here if applicable!
+// You can use the function skeleton!
+
+//=========================================================================
+// Testcases
+//=========================================================================
+
+// Insert test cases here if applicable!
+// You can use the test_case skeleton!
+
+//=========================================================================
+// Control
+//=========================================================================
+
+control
+{
+	execute(Make_request("GET", "/success/", "", 200, "SUCCESS\n"));
+	execute(Make_request("GET", "/novalidendpoint/", "", 404, "404\n"));
+	execute(Make_request("GET", "/api", "", 301, ""));
+}
+
+}  // end of module
