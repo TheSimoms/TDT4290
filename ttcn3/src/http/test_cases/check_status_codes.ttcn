@@ -93,9 +93,23 @@ import from simple_request {
 
 control
 {
+  	// Valid GET request. 200
 	execute(Make_request("GET", "/success/", "", 200, "SUCCESS\n"));
+	
+	// GET request to non-existing endpoint. 404
 	execute(Make_request("GET", "/novalidendpoint/", "", 404, "404\n"));
+	
+	// GET request without trailing slash. 301
 	execute(Make_request("GET", "/api", "", 301, ""));
+	
+	// Valid POST request. 201
+	//execute(Make_request("POST", "/api/locations/", "_content_type=application/xml&_content=<root><name>Hallo</name></root>", 201, ""));
+	
+	// Invalid POST request. 400
+	execute(Make_request("POST", "/api/locations/", "", 400, "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<root><name><list-item>This field is required.</list-item></name></root>"));
+	
+	// Unauthorized POST request. 403
+	execute(Make_request("POST", "/api/houses/", "", 403, "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<root><detail>Authentication credentials were not provided.</detail></root>"));
 }
 
 }  // end of module
