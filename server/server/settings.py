@@ -118,7 +118,9 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 
-# REST Framework settings
+##################
+#      REST      #
+##################
 ANONYMOUS_USER_ID = 2
 
 REST_FRAMEWORK = {

@@ -70,13 +70,13 @@ template Connect connect_ := {
     use_ssl := false
 };
 
-template HTTPRequest request(charstring method, charstring uri, charstring body) := {
+template HTTPRequest request(charstring method, charstring uri, charstring body, HeaderLines headers) := {
     client_id := omit,
     method := method,
     uri := uri,
     version_major := 1,
     version_minor := 0,
-    header := {},
+    header := headers,
     body := body
 };
 
@@ -90,8 +90,8 @@ template HTTPResponse response(integer status_code, charstring body) := {
   	body := body
 };
 
-template HTTPMessage request_message(charstring method, charstring uri, charstring body) := {
-  	request := request(method, uri, body)
+template HTTPMessage request_message(charstring method, charstring uri, charstring body, HeaderLines headers) := {
+  	request := request(method, uri, body, headers)
 }
 
 template HTTPMessage respone_message(integer status_code, charstring body) := {
@@ -119,12 +119,29 @@ template Half_close half_close_receive := {
 // Testcases
 //=========================================================================
 
-testcase Make_request(charstring method, charstring uri, charstring request_body, integer status_code, charstring response_body) runs on HTTP_TYPE system HTTP_TYPE
+testcase Simple_HTTP_request_test(charstring method, charstring uri, charstring request_body, integer status_code, charstring response_body) runs on HTTP_TYPE system HTTP_TYPE
 {
 	map(mtc:HTTP_PORT, system:HTTP_PORT);
 	
+	var HeaderLines headers;
+	
+	if(method == "POST") {
+		headers := {
+			{
+    			header_name := "Content-Type",
+    			header_value := "application/x-www-form-urlencoded"
+    		},
+    		{
+    			header_name := "Content-Length",
+    			header_value := int2str(lengthof(request_body))
+    		}
+    	};
+	} else {
+		headers := {};
+	}
+	
 	HTTP_PORT.send(connect_);
-	HTTP_PORT.send(request_message(method, uri, request_body));
+	HTTP_PORT.send(request_message(method, uri, request_body, headers));
 	
 	TIMER.start;
   	
