@@ -50,7 +50,7 @@ import from HTTPmsg_PortType all;
 
 type component HTTP_TYPE {
 	port HTTPmsg_PT HTTP_PORT;
-	timer TIMER := 1.0;
+	timer TIMER := 2.0;
 }
 
 //=========================================================================
@@ -70,35 +70,48 @@ template Connect connect_ := {
     use_ssl := false
 };
 
-template HTTPRequest request(charstring method, charstring uri, charstring body, HeaderLines headers) := {
-    client_id := omit,
-    method := method,
-    uri := uri,
-    version_major := 1,
-    version_minor := 0,
-    header := headers,
-    body := body
-};
-
-template HTTPResponse response(integer status_code, charstring body) := {
-	client_id := (0 .. infinity),
-  	version_major := 1,
-  	version_minor := 0,
-  	statuscode := status_code,
-  	statustext := ?,
-  	header := ?,
-  	body := body
-};
-
 template HTTPMessage request_message(charstring method, charstring uri, charstring body, HeaderLines headers) := {
-  	request := request(method, uri, body, headers)
+  	request := {
+    	client_id := omit,
+        method := method,
+        uri := uri,
+        version_major := 1,
+        version_minor := 0,
+        header := headers,
+        body := body
+    }
 }
 
-template HTTPMessage respone_message(integer status_code, charstring body) := {
-  	response := response(status_code, body)
+template HTTPMessage id_request_message(integer id, charstring method, charstring uri, charstring body, HeaderLines headers) := {
+  	request := {
+        client_id := id,
+        method := method,
+        uri := uri,
+        version_major := 1,
+        version_minor := 0,
+        header := headers,
+        body := body
+  	}
 }
-template Half_close half_close_receive := {
-  	client_id := (0 .. infinity)
+
+template HTTPMessage response_message(integer status_code, charstring body) := {
+  	response := {
+    	client_id := (0 .. infinity),
+      	version_major := 1,
+      	version_minor := 0,
+      	statuscode := status_code,
+      	statustext := ?,
+      	header := ?,
+      	body := body
+    }
+}
+
+template Close close := {
+  	client_id := omit
+}
+
+template Half_close half_close := {
+  	client_id := ?
 }
 
 //=========================================================================
@@ -119,7 +132,8 @@ template Half_close half_close_receive := {
 // Testcases
 //=========================================================================
 
-testcase Simple_HTTP_request_test(charstring method, charstring uri, charstring request_body, integer status_code, charstring response_body) runs on HTTP_TYPE system HTTP_TYPE
+testcase Simple_HTTP_request_test(
+	charstring method, charstring uri, charstring request_body, integer status_code, charstring response_body) runs on HTTP_TYPE system HTTP_TYPE
 {
 	map(mtc:HTTP_PORT, system:HTTP_PORT);
 	
@@ -146,16 +160,166 @@ testcase Simple_HTTP_request_test(charstring method, charstring uri, charstring 
 	TIMER.start;
   	
   	alt {
-			[] HTTP_PORT.receive(respone_message(status_code, response_body)) {
+			[] HTTP_PORT.receive(response_message(status_code, response_body)) {
 				TIMER.stop;
 				
 				alt {
-          			[] HTTP_PORT.receive(half_close_receive) { setverdict(pass); }
-          			[] HTTP_PORT.receive { setverdict(fail); }
+          			[] HTTP_PORT.receive(half_close) {
+          			    TIMER.stop;
+          			    
+          			    HTTP_PORT.send(close);
+          			    
+          				setverdict(pass);	
+          			}
+          			[] HTTP_PORT.receive {
+          			    TIMER.stop;
+          			    
+          			    HTTP_PORT.send(close);
+          			    
+          			    setverdict(fail);
+          			}
             	}
 			}
 			[] TIMER.timeout { setverdict(inconc); }
-			[] HTTP_PORT.receive { TIMER.stop; setverdict(fail); }
+			[] HTTP_PORT.receive {
+			    TIMER.stop;
+			    
+			    HTTP_PORT.send(close);
+			    
+			    setverdict(fail);
+			}
+	}
+}
+
+function get_session_id(HTTPMessage message_) return charstring{
+  	var charstring session_id := "", session_id_pattern := "(sessionid=[a-zA-Z0-9]+;)?*";
+  	
+  	for(var integer i := 0; i < lengthof(message_.response.header); i := i + 1){
+  		var HeaderLine header := message_.response.header[i];
+  		
+  		if(header.header_name == "Set-Cookie"){
+			var charstring session_id_match := regexp(header.header_value, session_id_pattern, 0);
+			
+			if(lengthof(session_id_match) > 0){			    
+			    session_id := session_id_match;
+			    
+			    break;
+			}
+  		}
+  	}
+  	
+  	return session_id;
+}
+
+testcase Authenticated_request_test(
+	charstring method, charstring uri, charstring request_body,
+	integer status_code, charstring response_body, charstring username, charstring password) runs on HTTP_TYPE system HTTP_TYPE
+{
+	map(mtc:HTTP_PORT, system:HTTP_PORT);
+	
+	var HeaderLines authentication_headers, headers;
+	var HTTPMessage authentication_response;
+	var charstring authentication_string := "username=" & username & "&password=" & password;
+	
+	authentication_headers := {
+		{
+  			header_name := "Content-Type",
+  			header_value := "application/x-www-form-urlencoded"
+  		},
+  		{
+  			header_name := "Content-Length",
+  			header_value := int2str(lengthof(authentication_string))
+  		}
+	}
+	
+	HTTP_PORT.send(connect_);
+	HTTP_PORT.send(request_message("POST", "/api/auth/login/", authentication_string, authentication_headers));
+	
+	TIMER.start;
+  	
+  	alt {
+		[] HTTP_PORT.receive(HTTPMessage:?) -> value authentication_response {
+			TIMER.stop;
+			TIMER.start;
+		    
+			alt {
+          		[] HTTP_PORT.receive(half_close) {
+          		    TIMER.stop;
+          		    
+          			if(method == "POST") {
+                    	headers := {
+                    		{
+                       			header_name := "Content-Type",
+                       			header_value := "application/x-www-form-urlencoded"
+                       		},
+                       		{
+                       			header_name := "Content-Length",
+                       			header_value := int2str(lengthof(request_body))
+                       		},
+                       		{
+                       		  	header_name := "Cookie",
+                    			header_value := get_session_id(authentication_response)
+                       		}
+                       	};
+                    } else {
+                    	headers := {};
+                    }
+                    
+        			HTTP_PORT.send(close);
+					HTTP_PORT.send(connect_);
+        			HTTP_PORT.send(request_message(method, uri, request_body, headers));
+        			
+                    TIMER.start;
+        				
+        			alt {
+                		[] HTTP_PORT.receive(response_message(status_code, response_body)) {
+                			TIMER.stop;
+                			TIMER.start;
+                			
+                			alt {
+                       			[] HTTP_PORT.receive(half_close) {    
+                       			    TIMER.stop;
+                		    
+                        		    HTTP_PORT.send(close);
+                       			                       			    
+                       				setverdict(pass);	
+                       			}
+                       			[] HTTP_PORT.receive {
+                       			    TIMER.stop;
+                		    
+                        		    HTTP_PORT.send(close);
+                        		    
+                        		    setverdict(fail);
+                       			}
+                          	}
+                		}
+                		[] TIMER.timeout { setverdict(inconc); }
+                		[] HTTP_PORT.receive {
+                		    TIMER.stop;
+                		    
+                		    HTTP_PORT.send(close);
+                		    
+                		    setverdict(fail);
+                		}
+        			}
+            	}
+            	[] HTTP_PORT.receive {
+					TIMER.stop;
+		    
+        		    HTTP_PORT.send(close);
+        		    
+        		    setverdict(fail);
+				}
+          	}
+		}
+		[] TIMER.timeout { setverdict(inconc); }
+		[] HTTP_PORT.receive {
+		    TIMER.stop;
+		    
+		    HTTP_PORT.send(close);
+		    
+		    setverdict(fail);
+		}
 	}
 }
 

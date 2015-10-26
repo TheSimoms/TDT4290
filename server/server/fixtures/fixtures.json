@@ -34,5 +34,23 @@
         },
         "model": "auth.user",
         "pk": 2
+    },
+    {
+        "fields": {
+            "name": "Moholt"
+        },
+        "model": "house.location",
+        "pk": 1
+    },
+    {
+        "fields": {
+            "name": "Grotten",
+            "location": 1,
+            "number_of_rooms": 1,
+            "color": "red",
+            "inhabitants": []
+        },
+        "model": "house.house",
+        "pk": 1
     }
 ]

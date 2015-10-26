@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 
 
 class Location(models.Model):
-    name = models.CharField(max_length=255, blank=False, null=False, unique=True)
+    name = models.CharField(max_length=255, blank=False, null=False)
 
     def __unicode__(self):
         return self.name
@@ -26,8 +26,8 @@ class House(models.Model):
         ('other', 'Other'),
     )
 
-    name = models.CharField(max_length=255, blank=False, null=False, unique=True)
+    name = models.CharField(max_length=255, blank=False, null=False)
     location = models.ForeignKey(Location, null=False)
     number_of_rooms = models.IntegerField(null=False, validators=[MinValueValidator(1)])
-    color = models.CharField(max_length=255, choices=COLOR_CHOICES, null=False)
-    inhabitants = models.ManyToManyField(User, null=False)
+    color = models.CharField(max_length=255, choices=COLOR_CHOICES, default=COLOR_CHOICES[0][0])
+    inhabitants = models.ManyToManyField(User, null=False, default=[])

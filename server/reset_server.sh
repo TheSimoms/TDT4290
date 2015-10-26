@@ -10,6 +10,7 @@ pip install -r requirements.txt
 rm db.sqlite3
 
 # Sets up new database and loads test data
+python manage.py makemigrations
 python manage.py syncdb --noinput
 python manage.py migrate --fake
 python manage.py loaddata server/fixtures/fixtures.json

@@ -13,9 +13,7 @@ module check_status_codes
 // Import Part
 //=========================================================================
 
-import from simple_request {
-  	testcase Make_request;
-};
+import from simple_request all;
 
 //=========================================================================
 // Module Parameters
@@ -105,14 +103,20 @@ control
 	// Valid POST request. 201
 	execute(Simple_HTTP_request_test("POST", "/api/locations/", "_content_type=application%2Fxml&_content=%3Croot%3E%3Cname%3EFEST%3C%2Fname%3E%3C%2Froot%3E", 201, "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<root><name>FEST</name></root>"));
 	
-	// Invalid POST request. Duplicated unique data. 500
-	execute(Simple_HTTP_request_test("POST", "/api/locations/", "_content_type=application%2Fxml&_content=%3Croot%3E%3Cname%3EFEST%3C%2Fname%3E%3C%2Froot%3E", 500, "<h1>Server Error (500)</h1>"));
-	
 	// Invalid POST request. 400
 	execute(Simple_HTTP_request_test("POST", "/api/locations/", "", 400, "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<root><name><list-item>This field is required.</list-item></name></root>"));
 	
 	// Unauthorized POST request. 403
 	execute(Simple_HTTP_request_test("POST", "/api/houses/", "", 403, "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<root><detail>Authentication credentials were not provided.</detail></root>"));
+	
+	// Authenticate. 200
+	execute(Simple_HTTP_request_test("POST", "/api/auth/login/", "username=admin&password=password", 302, ""));
+	
+	// Authenticated request. 200
+	execute(Authenticated_request_test(
+		"POST", "/api/houses/", "_content_type=application%2Fxml&_content=%3Croot%3E%3Cname%3EHulen%3C%2Fname%3E%3Clocation%3E1%3C%2Flocation%3E%3Cnumber_of_rooms%3E2%3C%2Fnumber_of_rooms%3E%3Ccolor%3Ered%3C%2Fcolor%3E%3C%2Froot%3E",
+		201, "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<root><name>Hulen</name><location>1</location><number_of_rooms>2</number_of_rooms><color>red</color><inhabitants></inhabitants></root>",
+		"admin", "password"));
 }
 
 }  // end of module
