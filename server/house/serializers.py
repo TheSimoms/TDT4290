@@ -1,13 +1,24 @@
+from django.contrib.auth.models import User
+
 from rest_framework import serializers
 
 from house.models import House, Location
-from user.serializers import UserSerializer
+
+
+class InhabitantsField(serializers.RelatedField):
+    queryset = User.objects.all()
+
+    def to_internal_value(self, data):
+        return data
+
+    def to_representation(self, value):
+        return value.pk
 
 
 class HouseSerializer(serializers.ModelSerializer):
     location = serializers.PrimaryKeyRelatedField(queryset=Location.objects.all())
     color = serializers.ChoiceField(choices=House.COLOR_CHOICES, required=False)
-    inhabitants = UserSerializer(many=True, required=False)
+    inhabitants = InhabitantsField(many=True, required=False)
 
     class Meta:
         model = House
