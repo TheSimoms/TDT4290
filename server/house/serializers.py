@@ -18,7 +18,7 @@ class InhabitantsField(serializers.RelatedField):
 class HouseSerializer(serializers.ModelSerializer):
     location = serializers.PrimaryKeyRelatedField(queryset=Location.objects.all())
     color = serializers.ChoiceField(choices=House.COLOR_CHOICES, required=False)
-    inhabitants = InhabitantsField(many=True, required=False)
+    inhabitants = InhabitantsField(many=True, required=False, allow_null=True)
 
     class Meta:
         model = House

@@ -261,6 +261,21 @@ testcase Authenticated_request_test(
                     			header_value := get_session_id(authentication_response)
                        		}
                        	};
+                    } else if(method == "PUT") {
+                    	headers := {
+                    		{
+                       			header_name := "Content-Type",
+                       			header_value := "application/xml"
+                       		},
+                       		{
+                       			header_name := "Content-Length",
+                       			header_value := int2str(lengthof(request_body))
+                       		},
+                       		{
+                       		  	header_name := "Cookie",
+                    			header_value := get_session_id(authentication_response)
+                       		}
+                       	};
                     } else {
                     	headers := {};
                     }

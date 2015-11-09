@@ -112,10 +112,16 @@ control
 	// Authenticate. 200
 	execute(Simple_HTTP_request_test("POST", "/api/auth/login/", "username=admin&password=password", 302, ""));
 	
-	// Authenticated request. 200
+	// Authenticated POST request. 200
 	execute(Authenticated_request_test(
 		"POST", "/api/houses/", "_content_type=application%2Fxml&_content=%3Croot%3E%3Cname%3EHulen%3C%2Fname%3E%3Clocation%3E1%3C%2Flocation%3E%3Cnumber_of_rooms%3E2%3C%2Fnumber_of_rooms%3E%3Ccolor%3Ered%3C%2Fcolor%3E%3C%2Froot%3E",
 		201, "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<root><name>Hulen</name><location>1</location><number_of_rooms>2</number_of_rooms><color>red</color><inhabitants></inhabitants></root>",
+		"admin", "password"));
+		
+	// Authenticated PUT request. 200
+	execute(Authenticated_request_test(
+		"PUT", "/api/houses/1/", "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<root><id>1</id><name>Grotten</name><location>1</location><number_of_rooms>3</number_of_rooms><color>yellow</color></root>",
+		200, "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<root><name>Grotten</name><location>1</location><number_of_rooms>3</number_of_rooms><color>yellow</color><inhabitants></inhabitants></root>",
 		"admin", "password"));
 }
 
