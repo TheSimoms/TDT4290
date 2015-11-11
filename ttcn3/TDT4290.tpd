@@ -5,6 +5,7 @@
     <FolderResource projectRelativePath="doc" relativeURI="doc"/>
     <FolderResource projectRelativePath="src" relativeURI="src"/>
     <FolderResource projectRelativePath="src/http" relativeURI="src/http"/>
+    <FolderResource projectRelativePath="src/http/templates" relativeURI="src/http/templates"/>
     <FolderResource projectRelativePath="src/http/test_cases" relativeURI="src/http/test_cases"/>
     <FolderResource projectRelativePath="src/http/test_ports" relativeURI="src/http/test_ports"/>
     <FolderResource projectRelativePath="src/xmpp" relativeURI="src/xmpp"/>
@@ -15,57 +16,17 @@
   <Files>
     <FileResource projectRelativePath="Abstract_Socket.cc" relativeURI="Abstract_Socket.cc"/>
     <FileResource projectRelativePath="Abstract_Socket.hh" relativeURI="Abstract_Socket.hh"/>
-    <FileResource projectRelativePath="HTTPmsg_MessageLen.cc" relativeURI="HTTPmsg_MessageLen.cc"/>
-    <FileResource projectRelativePath="HTTPmsg_MessageLen.hh" relativeURI="HTTPmsg_MessageLen.hh"/>
     <FileResource projectRelativePath="HTTPmsg_MessageLen_Function.cc" relativeURI="HTTPmsg_MessageLen_Function.cc"/>
     <FileResource projectRelativePath="HTTPmsg_PT.cc" relativeURI="HTTPmsg_PT.cc"/>
     <FileResource projectRelativePath="HTTPmsg_PT.hh" relativeURI="HTTPmsg_PT.hh"/>
-    <FileResource projectRelativePath="HTTPmsg_PortType.cc" relativeURI="HTTPmsg_PortType.cc"/>
-    <FileResource projectRelativePath="HTTPmsg_PortType.hh" relativeURI="HTTPmsg_PortType.hh"/>
-    <FileResource projectRelativePath="HTTPmsg_Types.cc" relativeURI="HTTPmsg_Types.cc"/>
-    <FileResource projectRelativePath="HTTPmsg_Types.hh" relativeURI="HTTPmsg_Types.hh"/>
-    <FileResource projectRelativePath="TDT4290.tpd" relativeURI="TDT4290.tpd"/>
-    <FileResource projectRelativePath="UsefulTtcn3Types.cc" relativeURI="UsefulTtcn3Types.cc"/>
-    <FileResource projectRelativePath="UsefulTtcn3Types.hh" relativeURI="UsefulTtcn3Types.hh"/>
     <FileResource projectRelativePath="XMPP_PT.cc" relativeURI="XMPP_PT.cc"/>
     <FileResource projectRelativePath="XMPP_PT.hh" relativeURI="XMPP_PT.hh"/>
-    <FileResource projectRelativePath="XMPP_PortType.cc" relativeURI="XMPP_PortType.cc"/>
-    <FileResource projectRelativePath="XMPP_PortType.hh" relativeURI="XMPP_PortType.hh"/>
-    <FileResource projectRelativePath="XMPP_Types.cc" relativeURI="XMPP_Types.cc"/>
-    <FileResource projectRelativePath="XMPP_Types.hh" relativeURI="XMPP_Types.hh"/>
-    <FileResource projectRelativePath="XSD.cc" relativeURI="XSD.cc"/>
-    <FileResource projectRelativePath="XSD.hh" relativeURI="XSD.hh"/>
     <FileResource projectRelativePath="config.cfg" relativeURI="config.cfg"/>
     <FileResource projectRelativePath="doc/10921-CNL113775-2.doc" relativeURI="doc/10921-CNL113775-2.doc"/>
     <FileResource projectRelativePath="doc/1551-CNL113775.doc" relativeURI="doc/1551-CNL113775.doc"/>
-    <FileResource projectRelativePath="http_connect.cc" relativeURI="http_connect.cc"/>
-    <FileResource projectRelativePath="http_connect.hh" relativeURI="http_connect.hh"/>
-    <FileResource projectRelativePath="http_etherx_jabber_org_streams.cc" relativeURI="http_etherx_jabber_org_streams.cc"/>
-    <FileResource projectRelativePath="http_etherx_jabber_org_streams.hh" relativeURI="http_etherx_jabber_org_streams.hh"/>
-    <FileResource projectRelativePath="http_jabber_org_protocol_disco_info.cc" relativeURI="http_jabber_org_protocol_disco_info.cc"/>
-    <FileResource projectRelativePath="http_jabber_org_protocol_disco_info.hh" relativeURI="http_jabber_org_protocol_disco_info.hh"/>
-    <FileResource projectRelativePath="http_jabber_org_protocol_disco_items.cc" relativeURI="http_jabber_org_protocol_disco_items.cc"/>
-    <FileResource projectRelativePath="http_jabber_org_protocol_disco_items.hh" relativeURI="http_jabber_org_protocol_disco_items.hh"/>
-    <FileResource projectRelativePath="http_jabber_org_protocol_pubsub.cc" relativeURI="http_jabber_org_protocol_pubsub.cc"/>
-    <FileResource projectRelativePath="http_jabber_org_protocol_pubsub.hh" relativeURI="http_jabber_org_protocol_pubsub.hh"/>
-    <FileResource projectRelativePath="http_jabber_org_protocol_pubsub_errors.cc" relativeURI="http_jabber_org_protocol_pubsub_errors.cc"/>
-    <FileResource projectRelativePath="http_jabber_org_protocol_pubsub_errors.hh" relativeURI="http_jabber_org_protocol_pubsub_errors.hh"/>
-    <FileResource projectRelativePath="http_jabber_org_protocol_pubsub_event.cc" relativeURI="http_jabber_org_protocol_pubsub_event.cc"/>
-    <FileResource projectRelativePath="http_jabber_org_protocol_pubsub_event.hh" relativeURI="http_jabber_org_protocol_pubsub_event.hh"/>
-    <FileResource projectRelativePath="http_jabber_org_protocol_pubsub_owner.cc" relativeURI="http_jabber_org_protocol_pubsub_owner.cc"/>
-    <FileResource projectRelativePath="http_jabber_org_protocol_pubsub_owner.hh" relativeURI="http_jabber_org_protocol_pubsub_owner.hh"/>
-    <FileResource projectRelativePath="http_www_w3_org_XML_1998_namespace.cc" relativeURI="http_www_w3_org_XML_1998_namespace.cc"/>
-    <FileResource projectRelativePath="http_www_w3_org_XML_1998_namespace.hh" relativeURI="http_www_w3_org_XML_1998_namespace.hh"/>
-    <FileResource projectRelativePath="jabber_client.cc" relativeURI="jabber_client.cc"/>
-    <FileResource projectRelativePath="jabber_client.hh" relativeURI="jabber_client.hh"/>
-    <FileResource projectRelativePath="jabber_iq_auth.cc" relativeURI="jabber_iq_auth.cc"/>
-    <FileResource projectRelativePath="jabber_iq_auth.hh" relativeURI="jabber_iq_auth.hh"/>
-    <FileResource projectRelativePath="jabber_server.cc" relativeURI="jabber_server.cc"/>
-    <FileResource projectRelativePath="jabber_server.hh" relativeURI="jabber_server.hh"/>
-    <FileResource projectRelativePath="jabber_x_data.cc" relativeURI="jabber_x_data.cc"/>
-    <FileResource projectRelativePath="jabber_x_data.hh" relativeURI="jabber_x_data.hh"/>
     <FileResource projectRelativePath="setup.sh" relativeURI="setup.sh"/>
-    <FileResource projectRelativePath="src/http/test_cases/http_connect.ttcn" relativeURI="src/http/test_cases/http_connect.ttcn"/>
+    <FileResource projectRelativePath="src/http/templates/simple_request.ttcn" relativeURI="src/http/templates/simple_request.ttcn"/>
+    <FileResource projectRelativePath="src/http/test_cases/check_status_codes.ttcn" relativeURI="src/http/test_cases/check_status_codes.ttcn"/>
     <FileResource projectRelativePath="src/http/test_ports/HTTPmsg_MessageLen.ttcn" relativeURI="src/http/test_ports/HTTPmsg_MessageLen.ttcn"/>
     <FileResource projectRelativePath="src/http/test_ports/HTTPmsg_PortType.ttcn" relativeURI="src/http/test_ports/HTTPmsg_PortType.ttcn"/>
     <FileResource projectRelativePath="src/http/test_ports/HTTPmsg_Types.ttcn" relativeURI="src/http/test_ports/HTTPmsg_Types.ttcn"/>
@@ -91,18 +52,6 @@
     <FileResource projectRelativePath="src/xmpp/test_cases/xmpp_connect.ttcn" relativeURI="src/xmpp/test_cases/xmpp_connect.ttcn"/>
     <FileResource projectRelativePath="src/xmpp/test_ports/XMPP_PortType.ttcn" relativeURI="src/xmpp/test_ports/XMPP_PortType.ttcn"/>
     <FileResource projectRelativePath="src/xmpp/test_ports/XMPP_Types.ttcn" relativeURI="src/xmpp/test_ports/XMPP_Types.ttcn"/>
-    <FileResource projectRelativePath="urn_ietf_params_xml_ns_xmpp_bind.cc" relativeURI="urn_ietf_params_xml_ns_xmpp_bind.cc"/>
-    <FileResource projectRelativePath="urn_ietf_params_xml_ns_xmpp_bind.hh" relativeURI="urn_ietf_params_xml_ns_xmpp_bind.hh"/>
-    <FileResource projectRelativePath="urn_ietf_params_xml_ns_xmpp_sasl.cc" relativeURI="urn_ietf_params_xml_ns_xmpp_sasl.cc"/>
-    <FileResource projectRelativePath="urn_ietf_params_xml_ns_xmpp_sasl.hh" relativeURI="urn_ietf_params_xml_ns_xmpp_sasl.hh"/>
-    <FileResource projectRelativePath="urn_ietf_params_xml_ns_xmpp_stanzas.cc" relativeURI="urn_ietf_params_xml_ns_xmpp_stanzas.cc"/>
-    <FileResource projectRelativePath="urn_ietf_params_xml_ns_xmpp_stanzas.hh" relativeURI="urn_ietf_params_xml_ns_xmpp_stanzas.hh"/>
-    <FileResource projectRelativePath="urn_ietf_params_xml_ns_xmpp_streams.cc" relativeURI="urn_ietf_params_xml_ns_xmpp_streams.cc"/>
-    <FileResource projectRelativePath="urn_ietf_params_xml_ns_xmpp_streams.hh" relativeURI="urn_ietf_params_xml_ns_xmpp_streams.hh"/>
-    <FileResource projectRelativePath="urn_ietf_params_xml_ns_xmpp_tls.cc" relativeURI="urn_ietf_params_xml_ns_xmpp_tls.cc"/>
-    <FileResource projectRelativePath="urn_ietf_params_xml_ns_xmpp_tls.hh" relativeURI="urn_ietf_params_xml_ns_xmpp_tls.hh"/>
-    <FileResource projectRelativePath="xmpp_connect.cc" relativeURI="xmpp_connect.cc"/>
-    <FileResource projectRelativePath="xmpp_connect.hh" relativeURI="xmpp_connect.hh"/>
   </Files>
   <ActiveConfiguration>Default</ActiveConfiguration>
   <Configurations>
