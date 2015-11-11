@@ -98,7 +98,7 @@ control
 	execute(Simple_HTTP_request_test("GET", "/novalidendpoint/", "", 404, "404\n"));
 	
 	// GET request without trailing slash. 301
-	execute(Simple_HTTP_request_test("GET", "/api", "", 301, ""));
+	execute(Simple_HTTP_request_test("GET", "/success", "", 301, ""));
 	
 	// Valid POST request. 201
 	execute(Simple_HTTP_request_test("POST", "/api/locations/", "_content_type=application%2Fxml&_content=%3Croot%3E%3Cname%3EFEST%3C%2Fname%3E%3C%2Froot%3E", 201, "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<root><name>FEST</name></root>"));
