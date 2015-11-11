@@ -21,10 +21,6 @@
     <FileResource projectRelativePath="HTTPmsg_PT.hh" relativeURI="HTTPmsg_PT.hh"/>
     <FileResource projectRelativePath="XMPP_PT.cc" relativeURI="XMPP_PT.cc"/>
     <FileResource projectRelativePath="XMPP_PT.hh" relativeURI="XMPP_PT.hh"/>
-    <FileResource projectRelativePath="config.cfg" relativeURI="config.cfg"/>
-    <FileResource projectRelativePath="doc/10921-CNL113775-2.doc" relativeURI="doc/10921-CNL113775-2.doc"/>
-    <FileResource projectRelativePath="doc/1551-CNL113775.doc" relativeURI="doc/1551-CNL113775.doc"/>
-    <FileResource projectRelativePath="setup.sh" relativeURI="setup.sh"/>
     <FileResource projectRelativePath="src/http/templates/simple_request.ttcn" relativeURI="src/http/templates/simple_request.ttcn"/>
     <FileResource projectRelativePath="src/http/test_cases/check_status_codes.ttcn" relativeURI="src/http/test_cases/check_status_codes.ttcn"/>
     <FileResource projectRelativePath="src/http/test_ports/HTTPmsg_MessageLen.ttcn" relativeURI="src/http/test_ports/HTTPmsg_MessageLen.ttcn"/>
