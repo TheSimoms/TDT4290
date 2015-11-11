@@ -109,7 +109,7 @@ control
 	// Unauthorized POST request. 403
 	execute(Simple_HTTP_request_test("POST", "/api/houses/", "", 403, "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<root><detail>Authentication credentials were not provided.</detail></root>"));
 	
-	// Authenticate. 200
+	// Authenticate. 302
 	execute(Simple_HTTP_request_test("POST", "/api/auth/login/", "username=admin&password=password", 302, ""));
 	
 	// Authenticated POST request. 200
