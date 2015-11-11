@@ -69,6 +69,7 @@ local.properties
 
 # Log
 log/
+logs/
 
 # Titan generated c++ files
 ttcn3/*.cc

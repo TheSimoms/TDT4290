@@ -251,14 +251,6 @@ testcase Authenticated_request_test(
                     		{
                        			header_name := "Content-Type",
                        			header_value := "application/x-www-form-urlencoded"
-                       		},
-                       		{
-                       			header_name := "Content-Length",
-                       			header_value := int2str(lengthof(request_body))
-                       		},
-                       		{
-                       		  	header_name := "Cookie",
-                    			header_value := get_session_id(authentication_response)
                        		}
                        	};
                     } else if(method == "PUT") {
@@ -266,7 +258,14 @@ testcase Authenticated_request_test(
                     		{
                        			header_name := "Content-Type",
                        			header_value := "application/xml"
-                       		},
+                       		}
+                       	};
+                    } else {
+                    	headers := {};
+                    }
+                    
+                    if(lengthof(request_body) > 0) {
+                        headers := headers & {
                        		{
                        			header_name := "Content-Length",
                        			header_value := int2str(lengthof(request_body))
@@ -275,9 +274,7 @@ testcase Authenticated_request_test(
                        		  	header_name := "Cookie",
                     			header_value := get_session_id(authentication_response)
                        		}
-                       	};
-                    } else {
-                    	headers := {};
+                        }
                     }
                     
         			HTTP_PORT.send(close);
