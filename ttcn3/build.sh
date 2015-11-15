@@ -1,4 +1,3 @@
-rm -r bin/
-ttcn3_makefilegen -t TDT4290.tpd
+ttcn3_makefilegen -t TDT4290.tpd -f
 cd bin
 make all
